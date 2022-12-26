@@ -13,7 +13,8 @@ library(RPostgres)
 library(rpostgis)
 library(DBI)
 library(sf)
-library(sqlpetr)
+library(here)
+library(data.table)
 ```
 
 OK, now for a database connection
@@ -41,5 +42,28 @@ buildingheights <- dbReadTable(con, "buildingheights1")
 Test Write some data:
 
 ```{r}
-dbWriteTable(con, name="build_ht", value=buildingheights)db
+dbWriteTable(con, name="build_ht", value=buildingheights, overwrite=TRUE)
+```
+
+Bit of data manipulation
+
+```{r}
+filenames <- list.files("../Download_BrightonBuildingHeight_2158450/mastermap_building_heights_4844182/tq/", pattern="*.csv", full.names=TRUE)
+
+BHA_header <- read_csv("../Download_BrightonBuildingHeight_2158450/mastermap_building_heights_4844182/docs/BHA_Header.csv")
+
+#put the column headers into a list
+oldnames=list(names(BHA_header))
+
+#read all csvs into single building heights dataframe
+all_building_heights <- read_csv(filenames, id = "file_name", col_names = F)
+
+#set column headers
+setnames(all_building_heights, old = 2:11, new = c("OS_TOPO_TOID", "OS_TOPO_TOID_VERSION","BHA_ProcessDate","TileRef","AbsHMin","AbsH2","AbsHMax","RelH2","RelHMax","BHA_Conf"))
+```
+
+Read height data back into database
+
+```{r}
+dbWriteTable(con, name="all_building_heights", value=all_building_heights, overwrite=TRUE)
 ```
