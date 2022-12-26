@@ -1,0 +1,45 @@
+---
+title: "postgres_practice"
+format: html
+editor: visual
+---
+
+## Postgres Practice
+
+```{r}
+library(tidyverse)
+library(RPostgreSQL)
+library(RPostgres)
+library(rpostgis)
+library(DBI)
+library(sf)
+library(sqlpetr)
+```
+
+OK, now for a database connection
+
+```{r}
+db <- "geodata"  #provide the name of your db
+host_db <- "localhost" #i.e. # i.e. 'ec2-54-83-201-96.compute-1.amazonaws.com'
+db_port <- "5432"  # or any other port specified by the DBA
+db_user <- "postgres"  
+db_password <- "postgres"
+
+con <- dbConnect(RPostgres::Postgres(), dbname = db, host=host_db, port=db_port, user=db_user, password=db_password) 
+
+#check connection
+dbListTables(con)
+```
+
+Read some data in to R:
+
+```{r}
+buildingheights <- dbReadTable(con, "buildingheights1")
+
+```
+
+Test Write some data:
+
+```{r}
+dbWriteTable(con, name="build_ht", value=buildingheights)db
+```
