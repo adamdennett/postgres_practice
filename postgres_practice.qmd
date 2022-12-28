@@ -42,7 +42,7 @@ buildingheights <- dbReadTable(con, "buildingheights1")
 Test Write some data:
 
 ```{r}
-dbWriteTable(con, name="build_ht", value=buildingheights, overwrite=TRUE)
+#dbWriteTable(con, name="build_ht", value=buildingheights, overwrite=TRUE)
 ```
 
 Bit of data manipulation
@@ -65,5 +65,11 @@ setnames(all_building_heights, old = 2:11, new = c("OS_TOPO_TOID", "OS_TOPO_TOID
 Read height data back into database
 
 ```{r}
-dbWriteTable(con, name="all_building_heights", value=all_building_heights, overwrite=TRUE)
+#dbWriteTable(con, name="all_building_heights", value=all_building_heights, overwrite=TRUE)
+```
+
+OK now let's read some EPC UPRN data into R to add into the mix
+
+```{r}
+EPC_data <- read_csv("C:/Users/Adam/OneDrive - University College London/Research/ADR-UK/OS Projects/EPC Data/UBDC File Transfer-T2hRgd5n9KFSKpGW/UBDC File Transfer-T2hRgd5n9KFSKpGW/ubdc_link/ubdc_link.csv")
 ```
