@@ -7,6 +7,13 @@ editor: visual
 ## Postgres Practice
 
 ```{r}
+#install.packages("remotes")
+#install.packages("installr")
+#library(installr)
+remotes::install_github("paleolimbot/geoarrow")
+```
+
+```{r}
 library(tidyverse)
 library(RPostgreSQL)
 library(RPostgres)
@@ -15,6 +22,7 @@ library(DBI)
 library(sf)
 library(here)
 library(data.table)
+library(geoarrow)
 ```
 
 OK, now for a database connection

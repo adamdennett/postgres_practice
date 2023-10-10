@@ -1,0 +1,34 @@
+---
+title: "Parquet Notes"
+author: "Adam Dennett"
+format: html
+editor: visual
+---
+
+## Parquet for R install Notes (windows)
+
+Load of useful notes here - <https://cloudnativegeo.org/blog/2023/10/the-geoparquet-ecosystem-at-1.0.0/>
+
+1.  First, install Rtools to a default location as the remotes installer uses this to unpack and build the packages (if you don't have it, it will try something else, but probably fail). This needs to be done by installing the windows installer from [here](https://cran.r-project.org/bin/windows/Rtools/rtools43/rtools.html)
+2.  Next install remotes - install.packages(remotes)
+3.  Next install geoarrow - <https://github.com/paleolimbot/geoarrow>
+4.  Next install arrow - install.packages(arrow)
+5.  OK, above failed, so trying sfarrow - install.packages(sfarrow)
+6.  Yes, this works better - <https://wcjochem.github.io/sfarrow/index.html>
+
+```{r}
+library(geoarrow)
+library(sf)
+library(arrow)
+library(sfarrow)
+library(tmap)
+
+
+countryboundary <- st_read_parquet("https://data.source.coop/ordnancesurvey/ngd-boundaries/GeoParquet/asu_bdy_country.parquet")
+
+region <- st_read_parquet("https://data.source.coop/ordnancesurvey/ngd-boundaries/GeoParquet/asu_bdy_region.parquet")
+
+qtm(region)
+
+GBR_Buildings <- st_read_parquet("D:/OS_parquet/GBR.parquet")
+```
